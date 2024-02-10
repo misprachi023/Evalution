@@ -1,6 +1,4 @@
 const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-dotenv.config();
 const authMiddleware = (req, res, next) => {
     const token = req.cookies.token;
     const refreshToken = req.cookies.refreshToken;
@@ -23,12 +21,6 @@ const authMiddleware = (req, res, next) => {
                             process.env.JWT_SECRET
                         );
                         res.cookie("token", newToken, {
-                            httpOnly: true,
-                            maxAge: 24 * 60 * 60 * 1000,
-                            sameSite: "none",
-                            secure: true,
-                        });
-                        res.cookie("refreshToken", refreshToken, {
                             httpOnly: true,
                             maxAge: 24 * 60 * 60 * 1000,
                             sameSite: "none",

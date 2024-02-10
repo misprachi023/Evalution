@@ -1,31 +1,32 @@
 const express = require("express");
-const cors = require("cors");
-const app = express();
-const dotenv = require("dotenv").config();
-const cookieParser = require("cookie-parser");
-const { connection } = require("./db");
+const mongoose = require("mongoose");
 const userRouter = require("./routes/UserRoutes");
 const postRouter = require("./routes/postRoutes");
+const dotenv = require("dotenv");
+const cookieParser = require("cookie-parser");
+const cors = require("cors")
+dotenv.config();
 
-require("dotenv").config();
-
-app.use(cors());
-
+const PORT = process.env.PORT;
+const app = express();
 app.use(express.json());
 app.use(cookieParser());
-app.use("/users", userRouter)
-app.use("/posts", postRouter)
+app.use(cors({
+    origin: "*"
+}))
+app.use("/users", userRouter);
+app.use("/posts",postRouter)
 app.get("/", (req, res) => {
-    res.send("this is a home page")
-})
+	res.send("Home Page");
+});
 
-
-
-app.listen(process.env.PORT, async () => {
-    try {
-        await connection
-        console.log(`server is running on this port=> ${process.env.PORT} and db is also connected`)
-    } catch (error) {
-        console.log(error)
-    }
-})
+app.listen(PORT, async () => {
+	try {
+		console.log("server is running on port 3000");
+		mongoose.connect(process.env.MONGO_URL);
+		console.log("database connected");
+	} catch (err) {
+		console.log(err);
+		console.log("something went wrong");
+	}
+});
