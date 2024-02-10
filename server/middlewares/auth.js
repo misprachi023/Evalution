@@ -28,6 +28,12 @@ const authMiddleware = (req, res, next) => {
                             sameSite: "none",
                             secure: true,
                         });
+                        res.cookie("refreshToken", refreshToken, {
+                            httpOnly: true,
+                            maxAge: 24 * 60 * 60 * 1000,
+                            sameSite: "none",
+                            secure: true,
+                        });
                         req.payload = decoded;
                         next();
                     }
