@@ -12,10 +12,11 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "*"
+    origin: "https://fullstack-frontend-rho.vercel.app/",
+	credentials: true    
 }))
 app.use("/users", userRouter);
-app.use("/posts",postRouter)
+app.use("/posts",postRouter)   
 app.get("/", (req, res) => {
 	res.send("Home Page");
 });
